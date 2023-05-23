@@ -23,6 +23,11 @@ public class Customer
   public String? PhoneNumber { get; set; }
 
   public CustomerTypes CustomerType { get; set; }
+
+  public Customer()
+  {
+    CustomerType = CustomerTypes.Normal;
+  }
 }
 
 public enum CustomerTypes
