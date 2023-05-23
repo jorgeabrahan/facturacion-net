@@ -14,21 +14,45 @@ public class Product
   [ForeignKey("InvoiceId")]
   public Guid InvoiceId { get; set; }
 
+  [ForeignKey("ArticleId")]
+  public Guid ArticleId { get; set; }
+
   [Required]
   public int Amount { get; set; }
 
-  [Required]
   public float Price { get; set; }
 
-  [Required]
-  [MaxLength(250)]
-  public String? Article { get; set; }
+  public float Total { get; set; }
 
+  public virtual Article? Article { get; set; }
   public virtual Invoice? Invoice { get; set; }
 
   public Product()
   {
-    /* Set default amount of products */
-    Amount = 1;
+    if (Article == null || ((Article.StockQuantity - Amount) < 0)) return;
+    Article.StockQuantity -= Amount; // subtract the amount purchased by the customer
+    this.CalculatePrice();
+    this.CalculateTotal();
+    /* Update invoice total when a new product is created */
+    if (this.Invoice == null) return;
+    this.Invoice.Total += this.Total;
+  }
+
+  public void CalculatePrice()
+  {
+    if (Invoice == null || Invoice.Customer == null || Article == null) return;
+    float profits = 0;
+    switch (Invoice.Customer.CustomerType)
+    {
+      case CustomerTypes.Wholesale: profits = 0.07f; break;
+      case CustomerTypes.Internal: profits = 0.05f; break;
+      default: profits = 0.12f; break; // if normal
+    }
+    this.Price = Article.CostPrice + (Article.CostPrice * profits);
+  }
+
+  public void CalculateTotal()
+  {
+    this.Total = this.Price * this.Amount;
   }
 }
