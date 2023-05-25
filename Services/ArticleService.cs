@@ -6,11 +6,12 @@ public class ArticleService : IArticleService
   FacturacionContext context;
   public ArticleService(FacturacionContext dbContext) => context = dbContext;
 
-  public async Task Create(Article article)
+  public async Task<Guid> Create(Article article)
   {
     article.ArticleId = Guid.NewGuid();
     await context.AddAsync(article);
     await context.SaveChangesAsync();
+    return article.ArticleId;
   }
 
   public IEnumerable<Article>? Read() => context.Articles;
@@ -35,7 +36,7 @@ public class ArticleService : IArticleService
 
 public interface IArticleService
 {
-  Task Create(Article article);
+  Task<Guid> Create(Article article);
   IEnumerable<Article>? Read();
   Task Update(Guid id, Article upPlatform);
   Task Delete(Guid id);

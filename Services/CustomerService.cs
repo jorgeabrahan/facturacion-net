@@ -6,11 +6,12 @@ public class CustomerService : ICustomerService
   FacturacionContext context;
   public CustomerService(FacturacionContext dbContext) => context = dbContext;
 
-  public async Task Create(Customer customer)
+  public async Task<Guid> Create(Customer customer)
   {
     customer.CustomerId = Guid.NewGuid();
     await context.AddAsync(customer);
     await context.SaveChangesAsync();
+    return customer.CustomerId;
   }
 
   public IEnumerable<Customer>? Read() => context.Customers;
@@ -38,7 +39,7 @@ public class CustomerService : ICustomerService
 
 public interface ICustomerService
 {
-  Task Create(Customer customer);
+  Task<Guid> Create(Customer customer);
   IEnumerable<Customer>? Read();
   Task Update(Guid id, Customer updated);
   Task Delete(Guid id);

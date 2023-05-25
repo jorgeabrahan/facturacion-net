@@ -6,11 +6,12 @@ public class InvoiceService : IInvoiceService
   FacturacionContext context;
   public InvoiceService(FacturacionContext dbContext) => context = dbContext;
 
-  public async Task Create(Invoice invoice)
+  public async Task<Guid> Create(Invoice invoice)
   {
     invoice.InvoiceId = Guid.NewGuid();
     await context.AddAsync(invoice);
     await context.SaveChangesAsync();
+    return invoice.InvoiceId;
   }
 
   public IEnumerable<Invoice>? Read() => context.Invoices;
@@ -37,7 +38,7 @@ public class InvoiceService : IInvoiceService
 
 public interface IInvoiceService
 {
-  Task Create(Invoice invoice);
+  Task<Guid> Create(Invoice invoice);
   IEnumerable<Invoice>? Read();
   Task Update(Guid id, Invoice updated);
   Task Delete(Guid id);

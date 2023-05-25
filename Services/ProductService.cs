@@ -6,11 +6,12 @@ public class ProductService : IProductService
   FacturacionContext context;
   public ProductService(FacturacionContext dbContext) => context = dbContext;
 
-  public async Task Create(Product product)
+  public async Task<Guid> Create(Product product)
   {
     product.ProductId = Guid.NewGuid();
     await context.AddAsync(product);
     await context.SaveChangesAsync();
+    return product.ProductId;
   }
 
   public IEnumerable<Product>? Read() => context.Products;
@@ -36,7 +37,7 @@ public class ProductService : IProductService
 
 public interface IProductService
 {
-  Task Create(Product product);
+  Task<Guid> Create(Product product);
   IEnumerable<Product>? Read();
   Task Update(Guid id, Product updated);
   Task Delete(Guid id);

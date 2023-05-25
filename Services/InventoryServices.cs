@@ -6,11 +6,12 @@ public class InventoryService : IInventoryService
   FacturacionContext context;
   public InventoryService(FacturacionContext dbContext) => context = dbContext;
 
-  public async Task Create(Inventory inventory)
+  public async Task<Guid> Create(Inventory inventory)
   {
     inventory.InventoryId = Guid.NewGuid();
     await context.AddAsync(inventory);
     await context.SaveChangesAsync();
+    return inventory.InventoryId;
   }
 
   public IEnumerable<Inventory>? Read() => context.Inventories;
@@ -28,7 +29,7 @@ public class InventoryService : IInventoryService
 
 public interface IInventoryService
 {
-  Task Create(Inventory inventory);
+  Task<Guid> Create(Inventory inventory);
   IEnumerable<Inventory>? Read();
   Task Delete(Guid id);
 }
