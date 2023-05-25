@@ -16,13 +16,13 @@ public class ArticleService : IArticleService
     //Read
     public IEnumerable<Article> Read() => context.Articles;
     //update
-    public async Task Update(Guid id, Article UpPlatform)
+    public async Task Update(Guid id, Article UpdateArticle)
     {
-        var test = context.Articles.Find(id);
-        if (test != null)
+        var addNew = context.Articles.Find(id);
+        if (addNew != null)
         {
-            test.StockQuantity = UpPlatform.StockQuantity;
-            test.CostPrice = UpPlatform.CostPrice;
+            addNew.StockQuantity = UpdateArticle.StockQuantity;
+            addNew.CostPrice = UpdateArticle.CostPrice;
             await context.SaveChangesAsync();
         }
     }

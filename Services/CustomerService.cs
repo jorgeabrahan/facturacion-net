@@ -16,16 +16,16 @@ public class CustomerService : ICustomerService
     //Read
     public IEnumerable<Customer> Read() => context.Customers;
     //update
-    public async Task Update(Guid id, Customer UpCustomer)
+    public async Task Update(Guid id, Customer UpdateCustomer)
     {
-        var test = context.Customers.Find(id);
-        if (test == null) return;
+        var addNew = context.Customers.Find(id);
+        if (addNew == null) return;
 
-        test.Name = UpCustomer.Name;
-        test.Address = UpCustomer.Address;
-        test.RTN = UpCustomer.RTN;
-        test.PhoneNumber = UpCustomer.PhoneNumber;
-        test.CustomerType = UpCustomer.CustomerType;
+        addNew.Name = UpdateCustomer.Name;
+        addNew.Address = UpdateCustomer.Address;
+        addNew.RTN = UpdateCustomer.RTN;
+        addNew.PhoneNumber = UpdateCustomer.PhoneNumber;
+        addNew.CustomerType = UpdateCustomer.CustomerType;
         await context.SaveChangesAsync();
 
     }

@@ -16,13 +16,13 @@ public class InventoryService : IInventoryService
     //Read
     public IEnumerable<Inventory> Read() => context.Inventorys;
     //update
-    // public async Task Update(Guid id, Inventory UpPlatform)
+    // public async Task Update(Guid id, Inventory UpdateInventory)
     // {
-    //     var test = context.Inventorys.Find(id);
-    //     if (test != null)
+    //     var addNew = context.Inventorys.Find(id);
+    //     if (addNew != null)
     //     {
-    //         test.StockQuantity = UpPlatform.StockQuantity;
-    //         test.CostPrice = UpPlatform.CostPrice;
+    //         addNew.StockQuantity = UpdateInventory.StockQuantity;
+    //         addNew.CostPrice = UpdateInventory.CostPrice;
     //         await context.SaveChangesAsync();
     //     }
     // }
