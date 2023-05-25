@@ -1,51 +1,42 @@
 using facturacion.Models;
+namespace facturacion.Services;
 
 public class ArticleService : IArticleService
 {
-    //Inyeccion de dependencias.
-    Context context;
-    public ArticleService(Context DbContext) => context = DbContext;
+  FacturacionContext context;
+  public ArticleService(FacturacionContext dbContext) => context = dbContext;
 
-    //CRUD
-    //create
-    public async Task Create(Article newPlatform)
-    {
-        await context.AddAsync(newPlatform);
-        await context.SaveChangesAsync();
-    }
-    //Read
-    public IEnumerable<Article> Read() => context.Articles;
-    //update
-    public async Task Update(Guid id, Article UpdateArticle)
-    {
-        var addNew = context.Articles.Find(id);
-        if (addNew != null)
-        {
-            addNew.StockQuantity = UpdateArticle.StockQuantity;
-            addNew.CostPrice = UpdateArticle.CostPrice;
-            await context.SaveChangesAsync();
-        }
-    }
+  public async Task Create(Article article)
+  {
+    article.ArticleId = Guid.NewGuid();
+    await context.AddAsync(article);
+    await context.SaveChangesAsync();
+  }
 
-    //Delelte
+  public IEnumerable<Article>? Read() => context.Articles;
 
-    public async Task Delete(Guid id)
-    {
-        var test = context.Articles.Find(id);
-        if (test != null)
-        {
-            context.Remove(test);
-            await context.SaveChangesAsync();
-        }
-    }
+  public async Task Update(Guid id, Article updated)
+  {
+    var article = context.Articles?.Find(id);
+    if (article == null) return;
+    article.StockQuantity = updated.StockQuantity;
+    article.CostPrice = updated.CostPrice;
+    await context.SaveChangesAsync();
+  }
 
+  public async Task Delete(Guid id)
+  {
+    var article = context.Articles?.Find(id);
+    if (article == null) return;
+    context.Remove(article);
+    await context.SaveChangesAsync();
+  }
 }
 
 public interface IArticleService
 {
-    Task Create(Article newPlatform);
-    IEnumerable<Article> Read();
-    Task Update(Guid id, Article upPlatform);
-    Task Delete(Guid id);
-
+  Task Create(Article article);
+  IEnumerable<Article>? Read();
+  Task Update(Guid id, Article upPlatform);
+  Task Delete(Guid id);
 }

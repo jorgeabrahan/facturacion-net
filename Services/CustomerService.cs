@@ -1,54 +1,45 @@
 using facturacion.Models;
+namespace facturacion.Services;
 
 public class CustomerService : ICustomerService
 {
-    //Inyeccion de dependencias.
-    Context context;
-    public CustomerService(Context DbContext) => context = DbContext;
+  FacturacionContext context;
+  public CustomerService(FacturacionContext dbContext) => context = dbContext;
 
-    //CRUD
-    //create
-    public async Task Create(Customer newCustomer)
-    {
-        await context.AddAsync(newCustomer);
-        await context.SaveChangesAsync();
-    }
-    //Read
-    public IEnumerable<Customer> Read() => context.Customers;
-    //update
-    public async Task Update(Guid id, Customer UpdateCustomer)
-    {
-        var addNew = context.Customers.Find(id);
-        if (addNew == null) return;
+  public async Task Create(Customer customer)
+  {
+    customer.CustomerId = Guid.NewGuid();
+    await context.AddAsync(customer);
+    await context.SaveChangesAsync();
+  }
 
-        addNew.Name = UpdateCustomer.Name;
-        addNew.Address = UpdateCustomer.Address;
-        addNew.RTN = UpdateCustomer.RTN;
-        addNew.PhoneNumber = UpdateCustomer.PhoneNumber;
-        addNew.CustomerType = UpdateCustomer.CustomerType;
-        await context.SaveChangesAsync();
+  public IEnumerable<Customer>? Read() => context.Customers;
 
-    }
+  public async Task Update(Guid id, Customer updated)
+  {
+    var customer = context.Customers?.Find(id);
+    if (customer == null) return;
+    customer.Name = updated.Name;
+    customer.Address = updated.Address;
+    customer.RTN = updated.RTN;
+    customer.PhoneNumber = updated.PhoneNumber;
+    customer.CustomerType = updated.CustomerType;
+    await context.SaveChangesAsync();
+  }
 
-    //Delelte
-
-    public async Task Delete(Guid id)
-    {
-        var test = context.Customers.Find(id);
-        if (test != null)
-        {
-            context.Remove(test);
-            await context.SaveChangesAsync();
-        }
-    }
-
+  public async Task Delete(Guid id)
+  {
+    var customer = context.Customers?.Find(id);
+    if (customer == null) return;
+    context.Remove(customer);
+    await context.SaveChangesAsync();
+  }
 }
 
 public interface ICustomerService
 {
-    Task Create(Customer newCustomer);
-    IEnumerable<Customer> Read();
-    Task Update(Guid id, Customer upCustomer);
-    Task Delete(Guid id);
-
+  Task Create(Customer customer);
+  IEnumerable<Customer>? Read();
+  Task Update(Guid id, Customer updated);
+  Task Delete(Guid id);
 }

@@ -1,52 +1,34 @@
 using facturacion.Models;
+namespace facturacion.Services;
 
 public class InventoryService : IInventoryService
 {
-    //Inyeccion de dependencias.
-    Context context;
-    public InventoryService(Context DbContext) => context = DbContext;
+  FacturacionContext context;
+  public InventoryService(FacturacionContext dbContext) => context = dbContext;
 
-    //CRUD
-    //create
-    // public async Task Create(Inventory newPlatform)
-    // {
-    //     await context.AddAsync(newPlatform);
-    //     await context.SaveChangesAsync();
-    // }
-    //Read
-    public IEnumerable<Inventory> Read() => context.Inventorys;
-    //update
-    // public async Task Update(Guid id, Inventory UpdateInventory)
-    // {
-    //     var addNew = context.Inventorys.Find(id);
-    //     if (addNew != null)
-    //     {
-    //         addNew.StockQuantity = UpdateInventory.StockQuantity;
-    //         addNew.CostPrice = UpdateInventory.CostPrice;
-    //         await context.SaveChangesAsync();
-    //     }
-    // }
+  public async Task Create(Inventory inventory)
+  {
+    inventory.InventoryId = Guid.NewGuid();
+    await context.AddAsync(inventory);
+    await context.SaveChangesAsync();
+  }
 
-    //Delelte
+  public IEnumerable<Inventory>? Read() => context.Inventories;
 
-    public async Task Delete(Guid id)
-    {
-        var test = context.Inventorys.Find(id);
-        if (test != null)
-        {
-            context.Remove(test);
-            await context.SaveChangesAsync();
-        }
-    }
+  /* Inventories shouldn't have an update method since the only property is articles */
 
-    
+  public async Task Delete(Guid id)
+  {
+    var inventory = context.Inventories?.Find(id);
+    if (inventory == null) return;
+    context.Remove(inventory);
+    await context.SaveChangesAsync();
+  }
 }
 
 public interface IInventoryService
 {
-  //  Task Create(Inventory newPlatform);
-    IEnumerable<Inventory> Read();
-   // Task Update(Guid id, Inventory upPlatform);
-    Task Delete(Guid id);
-
+  Task Create(Inventory inventory);
+  IEnumerable<Inventory>? Read();
+  Task Delete(Guid id);
 }

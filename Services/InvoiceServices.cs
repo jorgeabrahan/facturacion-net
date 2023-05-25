@@ -1,53 +1,44 @@
 using facturacion.Models;
+namespace facturacion.Services;
 
 public class InvoiceService : IInvoiceService
 {
-    //Inyeccion de dependencias.
-    Context context;
-    public InvoiceService(Context DbContext) => context = DbContext;
+  FacturacionContext context;
+  public InvoiceService(FacturacionContext dbContext) => context = dbContext;
 
-    //CRUD
-    //create
-    public async Task Create(Invoice newinvoice)
-    {
-        await context.AddAsync(newinvoice);
-        await context.SaveChangesAsync();
-    }
-    //Read
-    public IEnumerable<Invoice> Read() => context.Invoices;
-    //update
-    public async Task Update(Guid id, Invoice UpdateInvoice)
-    {
-        var addNew = context.Invoices.Find(id);
-        if (addNew == null) return;
-        
-            addNew.SubTotal = UpdateInvoice.SubTotal;
-            addNew.ISV = UpdateInvoice.ISV;
-            addNew.Total = UpdateInvoice.Total;
-            addNew.CreationDate = UpdateInvoice.CreationDate;
-            await context.SaveChangesAsync();
-        
-    }
+  public async Task Create(Invoice invoice)
+  {
+    invoice.InvoiceId = Guid.NewGuid();
+    await context.AddAsync(invoice);
+    await context.SaveChangesAsync();
+  }
 
-    //Delelte
+  public IEnumerable<Invoice>? Read() => context.Invoices;
 
-    public async Task Delete(Guid id)
-    {
-        var test = context.Invoices.Find(id);
-        if (test != null)
-        {
-            context.Remove(test);
-            await context.SaveChangesAsync();
-        }
-    }
+  public async Task Update(Guid id, Invoice updated)
+  {
+    var invoice = context.Invoices?.Find(id);
+    if (invoice == null) return;
+    invoice.SubTotal = updated.SubTotal;
+    invoice.ISV = updated.ISV;
+    invoice.Total = updated.Total;
+    /* The creation date can't be updated */
+    await context.SaveChangesAsync();
+  }
 
+  public async Task Delete(Guid id)
+  {
+    var invoice = context.Invoices?.Find(id);
+    if (invoice == null) return;
+    context.Remove(invoice);
+    await context.SaveChangesAsync();
+  }
 }
 
 public interface IInvoiceService
 {
-    Task Create(Invoice newinvoice);
-    IEnumerable<Invoice> Read();
-    Task Update(Guid id, Invoice upinvoice);
-    Task Delete(Guid id);
-
+  Task Create(Invoice invoice);
+  IEnumerable<Invoice>? Read();
+  Task Update(Guid id, Invoice updated);
+  Task Delete(Guid id);
 }
