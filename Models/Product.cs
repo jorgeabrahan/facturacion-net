@@ -33,9 +33,7 @@ public class Product
     Article.StockQuantity -= Amount; // subtract the amount purchased by the customer
     this.CalculatePrice();
     this.CalculateTotal();
-    /* Update invoice total when a new product is created */
-    if (this.Invoice == null) return;
-    this.Invoice.Total += this.Total;
+    this.CalculateInvoiceTotal();
   }
 
   public void CalculatePrice()
@@ -54,5 +52,14 @@ public class Product
   public void CalculateTotal()
   {
     this.Total = this.Price * this.Amount;
+  }
+
+  public void CalculateInvoiceTotal()
+  {
+    /* Update invoice total when a new product is created */
+    if (this.Invoice == null) return;
+    this.Invoice.SubTotal += this.Total;
+    this.Invoice.ISV = this.Invoice.SubTotal * 0.15f;
+    this.Invoice.Total = this.Invoice.ISV + this.Invoice.SubTotal;
   }
 }
