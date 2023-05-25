@@ -16,15 +16,15 @@ public class InvoiceService : IInvoiceService
     //Read
     public IEnumerable<Invoice> Read() => context.Invoices;
     //update
-    public async Task Update(Guid id, Invoice Upinvoice)
+    public async Task Update(Guid id, Invoice UpdateInvoice)
     {
-        var test = context.Invoices.Find(id);
-        if (test == null) return;
+        var addNew = context.Invoices.Find(id);
+        if (addNew == null) return;
         
-            test.SubTotal = Upinvoice.SubTotal;
-            test.ISV = Upinvoice.ISV;
-            test.Total = Upinvoice.Total;
-            test.CreationDate = Upinvoice.CreationDate;
+            addNew.SubTotal = UpdateInvoice.SubTotal;
+            addNew.ISV = UpdateInvoice.ISV;
+            addNew.Total = UpdateInvoice.Total;
+            addNew.CreationDate = UpdateInvoice.CreationDate;
             await context.SaveChangesAsync();
         
     }

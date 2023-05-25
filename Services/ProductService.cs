@@ -16,14 +16,14 @@ public class ProductService : IProductService
     //Read
     public IEnumerable<Product> Read() => context.Products;
     //update
-    public async Task Update(Guid id, Product Upproduct)
+    public async Task Update(Guid id, Product UpdateProducts)
     {
-        var test = context.Products.Find(id);
-        if (test == null) return;
+        var addNew = context.Products.Find(id);
+        if (addNew == null) return;
         
-            test.Amount = Upproduct.Amount;
-            test.Price = Upproduct.Price;
-            test.Total = Upproduct.Total;
+            addNew.Amount = UpdateProducts.Amount;
+            addNew.Price = UpdateProducts.Price;
+            addNew.Total = UpdateProducts.Total;
             await context.SaveChangesAsync();
         
     }
