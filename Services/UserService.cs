@@ -3,7 +3,6 @@ namespace facturacion.Services;
 
 public class UserService : IUserService
 {
-  //Inyeccion de dependencias.
   FacturacionContext context;
   public UserService(FacturacionContext dbContext) => context = dbContext;
 
