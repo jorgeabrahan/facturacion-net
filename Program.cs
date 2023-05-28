@@ -13,6 +13,10 @@ builder.Services.AddSqlServer<FacturacionContext>("Data Source=localhost; Initia
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IInvoiceService, InvoiceService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IReportService, ReportService>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 var app = builder.Build();
 
