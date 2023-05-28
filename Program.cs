@@ -1,5 +1,6 @@
 using facturacion;
 using facturacion.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,9 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSqlServer<FacturacionContext>("Data Source=localhost; Initial Catalog=facturationDB;user id=sa;password=Programaci0n$;Encrypt=False");
+var connectionString = "Data Source=localhost,1433; Initial Catalog=FacturacionDB; user ID=SA; Password=C@m1l1t0; TrustServerCertificate=True";
+builder.Services.AddDbContext<FacturacionContext>(options => options.UseSqlServer(connectionString));
+
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();

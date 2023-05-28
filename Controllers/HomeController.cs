@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace facturacion.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class HomeController : ControllerBase
 {
   FacturacionContext dbcontext;
