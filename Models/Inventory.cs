@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace facturacion.Models;
-/* Articulo */
+/* Inventario */
 public class Inventory
 {
   [Key]
