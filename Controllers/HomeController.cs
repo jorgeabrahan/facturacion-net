@@ -10,8 +10,8 @@ public class HomeController : ControllerBase
   public HomeController(FacturacionContext db) => dbcontext = db;
 
   [HttpGet]
-  [Route("conectar")]
-  public IActionResult conectar()
+  [Route("connect")]
+  public IActionResult connect()
   {
     dbcontext.Database.EnsureCreated();
     return Ok();
