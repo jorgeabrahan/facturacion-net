@@ -9,7 +9,9 @@ Facturation UML class diagram:
 ![Facturation uml class diagram](./repo_images/uml_class_diagram_facturation.jpg)
 
 Informe- Avance del proyecto:
+
 https://drive.google.com/file/d/1H8CJv2baomM6H8ESqhZRsnhKhtySuRLQ/view?usp=drive_link
+
 ## Prerequisites
 
 - SDK .Net 7 Installed
