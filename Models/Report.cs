@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace facturacion.Models;
 /* Informe */
@@ -10,9 +9,6 @@ public class Report
   */
   [Key]
   public Guid ReportId { get; set; }
-
-  [ForeignKey("InvoiceId")]
-  public Guid InvoiceId { get; set; }
 
   [Required]
   [MaxLength(250)]

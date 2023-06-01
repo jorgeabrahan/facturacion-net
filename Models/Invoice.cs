@@ -6,11 +6,15 @@ namespace facturacion.Models;
 public class Invoice
 {
   /*
+  An invoice belongs to a report
   An invoice belongs to a customer
   An invoice has many products
   */
   [Key]
   public Guid InvoiceId { get; set; }
+
+  [ForeignKey("ReportId")]
+  public Guid ReportId { get; set; }
 
   [ForeignKey("CustomerId")]
   public Guid CustomerId { get; set; }
@@ -21,6 +25,7 @@ public class Invoice
 
   public DateTime CreationDate { get; set; }
 
+  public virtual Report? Report { get; set; }
   public virtual Customer? Customer { get; set; }
   public virtual ICollection<Product>? Products { get; set; }
 
