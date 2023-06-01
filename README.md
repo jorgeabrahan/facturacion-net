@@ -6,7 +6,7 @@ Facturation REST API project built using C#, Microsoft Entity Framework .NET 7, 
 
 Facturation UML class diagram:
 
-![Facturation uml class diagram](./repo_images/uml_class_diagram_facturation.jpg)
+![Facturation uml class diagram](./repo_images/diagrama-facturacion.png)
 
 Informe- Avance del proyecto:
 
