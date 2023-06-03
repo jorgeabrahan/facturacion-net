@@ -1,53 +1,44 @@
 using facturacion.Models;
+namespace facturacion.Services;
 
 public class ReportService : IReportService
 {
-    //Inyeccion de dependencias.
-    Context context;
-    public ReportService(Context DbContext) => context = DbContext;
+  FacturacionContext context;
+  public ReportService(FacturacionContext dbContext) => context = dbContext;
 
-    //CRUD
-    //create
-    public async Task Create(Report newinvoice)
-    {
-        await context.AddAsync(newinvoice);
-        await context.SaveChangesAsync();
-    }
-    //Read
-    public IEnumerable<Report> Read() => context.Reports;
-    //update
-    public async Task Update(Guid id, Report UpdateReport)
-    {
-        var addNew = context.Reports.Find(id);
-        if (addNew == null) return;
-        
-            addNew.Title = UpdateReport.Title;
-            addNew.Content = UpdateReport.Content;
-            addNew.TotalBills = UpdateReport.TotalBills;
-           
-            await context.SaveChangesAsync();
-        
-    }
+  public async Task<Guid> Create(Report report)
+  {
+    report.ReportId = Guid.NewGuid();
+    await context.AddAsync<Report>(report);
+    await context.SaveChangesAsync();
+    return report.ReportId;
+  }
 
-    //Delelte
+  public IEnumerable<Report>? Read() => context.Reports;
 
-    public async Task Delete(Guid id)
-    {
-        var test = context.Reports.Find(id);
-        if (test != null)
-        {
-            context.Remove(test);
-            await context.SaveChangesAsync();
-        }
-    }
+  public async Task Update(Guid id, Report updated)
+  {
+    var report = context.Reports?.Find(id);
+    if (report == null) return;
+    report.Title = updated.Title;
+    report.Content = updated.Content;
+    report.TotalBills = updated.TotalBills;
+    await context.SaveChangesAsync();
+  }
 
+  public async Task Delete(Guid id)
+  {
+    var report = context.Reports?.Find(id);
+    if (report == null) return;
+    context.Remove(report);
+    await context.SaveChangesAsync();
+  }
 }
 
 public interface IReportService
 {
-    Task Create(Report newinvoice);
-    IEnumerable<Report> Read();
-    Task Update(Guid id, Report upinvoice);
-    Task Delete(Guid id);
-
+  Task<Guid> Create(Report report);
+  IEnumerable<Report>? Read();
+  Task Update(Guid id, Report updated);
+  Task Delete(Guid id);
 }
