@@ -39,5 +39,6 @@ public interface IInventoryService
 {
   Task<Guid> Create(Inventory inventory);
   IEnumerable<Inventory>? Read();
+  Task Update(Guid id, Inventory updated);
   Task Delete(Guid id);
 }
