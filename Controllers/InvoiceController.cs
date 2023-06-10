@@ -17,6 +17,9 @@ public class InvoiceController : ControllerBase
   [HttpGet]
   public IActionResult ReadInvoices() => Ok(service.Read());
 
+  [HttpGet("{id}/products")]
+  public IActionResult ReadProducts(Guid id) => Ok(service.ReadProducts(id));
+
   [HttpPut("{id}")]
   public async Task<IActionResult> UpdateInvoice([FromBody] Invoice invoice, Guid id)
   {

@@ -19,6 +19,9 @@ public class ReportController : ControllerBase
   [HttpGet]
   public IActionResult ReadReports() => Ok(service.Read());
 
+  [HttpGet("{id}/invoices")]
+  public IActionResult ReadInvoices(Guid id) => Ok(service.ReadInvoices(id));
+
   [HttpPut("{id}")]
   public async Task<IActionResult> UpdateReport([FromBody] Report report, Guid id)
   {

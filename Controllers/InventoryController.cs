@@ -24,6 +24,9 @@ public class InventoryController : ControllerBase
   [HttpGet]
   public IActionResult ReadInventories() => Ok(service.Read());
 
+  [HttpGet("{id}/articles")]
+  public IActionResult ReadArticles(Guid id) => Ok(service.ReadArticles(id));
+
   [HttpDelete("{id}")]
   public async Task<IActionResult> DeleteInventory(Guid id)
   {
