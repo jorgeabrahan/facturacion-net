@@ -16,6 +16,14 @@ public class InventoryService : IInventoryService
 
   public IEnumerable<Inventory>? Read() => context.Inventories;
 
+  public async Task Update(Guid id, Inventory updated)
+  {
+    var inventory = context.Inventories?.Find(id);
+    if (inventory == null) return;
+    inventory.Name = updated.Name;
+    await context.SaveChangesAsync();
+  }
+
   /* Inventories shouldn't have an update method since the only property is articles */
 
   public async Task Delete(Guid id)
