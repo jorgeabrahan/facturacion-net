@@ -22,7 +22,7 @@ public class ReportService : IReportService
     if (report == null) return;
     report.Title = updated.Title;
     report.Content = updated.Content;
-    report.TotalBills = updated.TotalBills;
+    /* Total bills is automatically calculated, can't be changed */
     await context.SaveChangesAsync();
   }
 
