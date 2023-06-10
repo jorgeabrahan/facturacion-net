@@ -7,12 +7,12 @@ public class InvoiceService : IInvoiceService
   FacturacionContext context;
   public InvoiceService(FacturacionContext dbContext) => context = dbContext;
 
-  public async Task<Guid> Create(Invoice invoice)
+  public async Task<(Guid, DateTime)> Create(Invoice invoice)
   {
     invoice.InvoiceId = Guid.NewGuid();
     await context.AddAsync(invoice);
     await context.SaveChangesAsync();
-    return invoice.InvoiceId;
+    return (invoice.InvoiceId, invoice.CreationDate);
   }
 
   public IEnumerable<Invoice>? Read() => context.Invoices?.Include(i => i.Products);
@@ -45,7 +45,7 @@ public class InvoiceService : IInvoiceService
 
 public interface IInvoiceService
 {
-  Task<Guid> Create(Invoice invoice);
+  Task<(Guid, DateTime)> Create(Invoice invoice);
   IEnumerable<Invoice>? Read();
   IEnumerable<Product>? ReadProducts(Guid id);
   Task Update(Guid id, Invoice updated);
