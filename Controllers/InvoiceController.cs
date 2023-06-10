@@ -12,7 +12,11 @@ public class InvoiceController : ControllerBase
   public InvoiceController(IInvoiceService invoiceService) => service = invoiceService;
 
   [HttpPost]
-  public async Task<IActionResult> CreateInvoice([FromBody] Invoice invoice) => Ok(await service.Create(invoice));
+  public async Task<IActionResult> CreateInvoice([FromBody] Invoice invoice)
+  {
+    var (invoiceId, creationDate) = await service.Create(invoice);
+    return Ok(new { InvoiceId = invoiceId, CreationDate = creationDate });
+  }
 
   [HttpGet]
   public IActionResult ReadInvoices() => Ok(service.Read());
