@@ -18,10 +18,13 @@ public class Report
   [MaxLength(250)]
   public String? Content { get; set; }
 
-  [Required]
   public float TotalBills { get; set; }
 
   public virtual ICollection<Invoice>? Invoices { get; set; }
+
+  public Report() {
+    this.TotalBills = 0;
+  }
 
   public IEnumerable<Invoice> FilterInvoices(DateTime startDate, DateTime endDate)
   {
