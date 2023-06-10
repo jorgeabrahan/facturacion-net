@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using facturacion.Models;
 namespace facturacion.Services;
 
@@ -14,7 +15,13 @@ public class ReportService : IReportService
     return report.ReportId;
   }
 
-  public IEnumerable<Report>? Read() => context.Reports;
+  public IEnumerable<Report>? Read() => context.Reports?.Include(i => i.Invoices);
+
+  public IEnumerable<Invoice>? ReadInvoices(Guid id)
+  {
+    var report = context.Reports?.Include(i => i.Invoices).FirstOrDefault(i => i.ReportId == id);
+    return report?.Invoices;
+  }
 
   public async Task Update(Guid id, Report updated)
   {
@@ -39,6 +46,7 @@ public interface IReportService
 {
   Task<Guid> Create(Report report);
   IEnumerable<Report>? Read();
+  IEnumerable<Invoice>? ReadInvoices(Guid id);
   Task Update(Guid id, Report updated);
   Task Delete(Guid id);
 }

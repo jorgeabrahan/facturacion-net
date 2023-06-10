@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using facturacion.Models;
 namespace facturacion.Services;
 
@@ -14,7 +15,13 @@ public class InvoiceService : IInvoiceService
     return invoice.InvoiceId;
   }
 
-  public IEnumerable<Invoice>? Read() => context.Invoices;
+  public IEnumerable<Invoice>? Read() => context.Invoices?.Include(i => i.Products);
+
+  public IEnumerable<Product>? ReadProducts(Guid id)
+  {
+    var invoice = context.Invoices?.Include(i => i.Products).FirstOrDefault(i => i.InvoiceId == id);
+    return invoice?.Products;
+  }
 
   public async Task Update(Guid id, Invoice updated)
   {
@@ -40,6 +47,7 @@ public interface IInvoiceService
 {
   Task<Guid> Create(Invoice invoice);
   IEnumerable<Invoice>? Read();
+  IEnumerable<Product>? ReadProducts(Guid id);
   Task Update(Guid id, Invoice updated);
   Task Delete(Guid id);
 }
