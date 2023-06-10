@@ -11,5 +11,5 @@ public class Inventory
   [MaxLength(250)]
   public String? Name { get; set; }
 
-  public virtual ICollection<Article>? Article { get; set; }
+  public virtual ICollection<Article>? Articles { get; set; }
 }
