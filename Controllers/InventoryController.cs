@@ -14,6 +14,13 @@ public class InventoryController : ControllerBase
   [HttpPost]
   public async Task<IActionResult> CreateInventory([FromBody] Inventory inventory) => Ok(await service.Create(inventory));
 
+  [HttpPut("{id}")]
+  public async Task<IActionResult> UpdateInventory([FromBody] Inventory inventory, Guid id)
+  {
+    await service.Update(id, inventory);
+    return Ok();
+  }
+
   [HttpGet]
   public IActionResult ReadInventories() => Ok(service.Read());
 
