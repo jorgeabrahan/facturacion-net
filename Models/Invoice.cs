@@ -13,17 +13,13 @@ public class Invoice
   [Key]
   public Guid InvoiceId { get; set; }
 
-  [ForeignKey("CustomerId")]
-  public Guid CustomerId { get; set; }
-
   public float SubTotal { get; set; }
   public float ISV { get; set; }
   public float Total { get; set; }
 
   public DateTime CreationDate { get; set; }
 
-  public virtual Customer? Customer { get; set; }
-  public virtual ICollection<Product>? Products { get; set; }
+  public virtual ICollection<Product> Products { get; set; }
 
   public Invoice()
   {
@@ -32,5 +28,6 @@ public class Invoice
     Total = 0;
     /* Set creation date when an invoice is created */
     CreationDate = DateTime.Now;
+    Products = new List<Product>();
   }
 }
