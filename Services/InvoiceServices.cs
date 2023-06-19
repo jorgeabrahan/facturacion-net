@@ -19,7 +19,7 @@ public class InvoiceService : IInvoiceService
 
   public IEnumerable<Product>? ReadProducts(Guid id)
   {
-    var invoice = context.Invoices?.Include(i => i.Products).FirstOrDefault(i => i.InvoiceId == id);
+    var invoice = context.Invoices?.Include(i => i.Products).ThenInclude(p => p.Article).FirstOrDefault(i => i.InvoiceId == id);
     return invoice?.Products;
   }
 
