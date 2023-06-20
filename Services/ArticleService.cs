@@ -20,6 +20,7 @@ public class ArticleService : IArticleService
   {
     var article = context.Articles?.Find(id);
     if (article == null) return;
+    article.Name = updated.Name;
     article.StockQuantity = updated.StockQuantity;
     article.CostPrice = updated.CostPrice;
     await context.SaveChangesAsync();
