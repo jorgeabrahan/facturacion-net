@@ -41,7 +41,11 @@ docker compose up --build
 Run:
 
 ```
-dotnet run
+dotnet watch
 ```
+4- From swagger you need to connect to the database 
+´´´
+- clone the frontend and follow the steps in the S-billing readme: https://github.com/KarenGi2002/S-Billing.git
+5-
 
 Or you can also run `dotnet watch` if you want to keep watching for changes.
